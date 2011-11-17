@@ -23,7 +23,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webmock"
   s.add_development_dependency "httparty"
   s.add_development_dependency "json"
+  s.add_development_dependency "hashie"
+  s.add_development_dependency "ruby-debug"
 
   s.add_runtime_dependency "httparty"
   s.add_runtime_dependency "json"
+  s.add_runtime_dependency "hashie"
 end
