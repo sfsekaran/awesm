@@ -8,13 +8,24 @@ describe Awesm do
     end
   end
 
-  after(:each) { Awesm.subscription_key = nil }
+  describe '.application_key=' do
+    it 'sets the application key' do
+      Awesm.application_key = '1234567890'
+      Awesm.application_key.should == '1234567890'
+    end
+  end
+
+  after(:each) do
+    Awesm.subscription_key = nil
+    Awesm.application_key = nil
+  end
 end
 
 describe Awesm::Project do
   let(:json_response) do 
     {
       "request" => {
+        "application_key" => "app-xxxxxx",
         "json" => "{\"name\" =>\"Totally Awesome Project\"}",
         "method" => "new",
         "object" => "project",
@@ -38,10 +49,14 @@ describe Awesm::Project do
 
   before do
     Awesm.subscription_key = 'sub-xxxxxx'
-    stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22Totally%20Awesome%20Project%22%7D&subscription_key=sub-xxxxxx").
+    Awesm.application_key = 'app-xxxxxx'
+    stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22Totally%20Awesome%20Project%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
   end
-  after { Awesm.subscription_key = nil }
+  after do
+    Awesm.subscription_key = nil
+    Awesm.application_key = nil
+  end
 
   context '.create' do
     it 'returns an Awesm::Project' do
@@ -53,7 +68,7 @@ describe Awesm::Project do
       Awesm::Project.create({ :name => "Totally Awesome Project" })
 
       a_request(:post, "http://api.awe.sm/projects/new").
-        with(:query => {:subscription_key => "sub-xxxxxx", :json => { "name" => "Totally Awesome Project" }.to_json }).
+        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "Totally Awesome Project" }.to_json }).
         should have_been_made.once
     end
   end
