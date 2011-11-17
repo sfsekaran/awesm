@@ -1,5 +1,7 @@
-require 'rubygems'
+require 'awesm/version'
+
 require 'httparty'
+require 'json'
 
 module Awesm
   class Project

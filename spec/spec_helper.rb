@@ -1,9 +1,9 @@
 require 'rubygems'
-Bundler.setup(:default, :test)
+Bundler.setup
 
 require 'webmock/rspec'
+
 require 'awesm'
-require 'json'
 
 RSpec.configure do |config|
   # some (optional) config here
