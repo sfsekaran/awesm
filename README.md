@@ -1,4 +1,4 @@
-= Awesm =
+# Awesm #
 
 The *awesm* gem is an easy way to access the awe.sm API (http://totally.awe.sm).
 
@@ -6,7 +6,7 @@ We're actively developing this (and it's not yet production ready) but please
 feel free to send us a pull request from a topic branch with specs and an
 explanation :)
 
-== Usage ==
+## Usage ##
 
 ```ruby
 Awesm.subscription_key = 'sub-xxxxxx'
@@ -14,7 +14,7 @@ project = Awesm::Project.create(:name => 'Totally Awe.sm!')
 project.api_key # => '1234567890abcdefghijklmnopqrstuvwxyz'
 ```
 
-== Contributing ==
+## Contributing ##
 
 * fork
 * clone
@@ -24,7 +24,7 @@ project.api_key # => '1234567890abcdefghijklmnopqrstuvwxyz'
 * push to a topic branch
 * send us a pull request :)
 
-== Manitainers ==
+## Manitainers ##
 
 * *Sathya Sekaran*
 * *Michael Durnhofer*
