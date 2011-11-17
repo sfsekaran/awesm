@@ -8,6 +8,14 @@ explanation :)
 
 ## Usage ##
 
+In your Gemfile:
+
+```ruby
+gem 'awesm'
+```
+
+And in your code:
+
 ```ruby
 Awesm.subscription_key = 'sub-xxxxxx'
 project = Awesm::Project.create(:name => 'Totally Awe.sm!')
