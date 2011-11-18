@@ -10,18 +10,14 @@ explanation :)
 
 In your Gemfile:
 
-```ruby
-gem 'awesm'
-```
+    gem 'awesm'
 
 And in your code:
 
-```ruby
-Awesm.subscription_key = 'sub-xxxxxx'
-Awesm.application_key = 'app-xxxxxx'
-project = Awesm::Project.create(:name => 'Totally Awe.sm!')
-project.api_key # => '1234567890abcdefghijklmnopqrstuvwxyz'
-```
+    Awesm.subscription_key = 'sub-xxxxxx'
+    Awesm.application_key = 'app-xxxxxx'
+    project = Awesm::Project.create(:name => 'TotallyAwesm')
+    project.api_key # => '1234567890abcdefghijklmnopqrstuvwxyz'
 
 ## Contributing ##
 
