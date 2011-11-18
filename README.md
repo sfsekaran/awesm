@@ -37,3 +37,7 @@ project.api_key # => '1234567890abcdefghijklmnopqrstuvwxyz'
 
 * *Sathya Sekaran*
 * *Michael Durnhofer*
+
+## Many Thanks To ##
+* our employer, Topspin Media, Inc. (http://topspinmedia.com)
+* and the good folks at awe.sm (http://totally.awe.sm)
