@@ -5,7 +5,7 @@ describe Awesm::Project do
     {
       "request" => {
         "application_key" => "app-xxxxxx",
-        "json" => "{\"name\" =>\"Totally Awesome Project\"}",
+        "json" => "{\"name\" =>\"TotallyAwesomeProject\"}",
         "method" => "new",
         "object" => "project",
         "subscription_key" => "sub-xxxxxx"
@@ -29,7 +29,7 @@ describe Awesm::Project do
   before do
     Awesm.subscription_key = 'sub-xxxxxx'
     Awesm.application_key = 'app-xxxxxx'
-    stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22Totally%20Awesome%20Project%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+    stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
   end
   after do
@@ -39,22 +39,22 @@ describe Awesm::Project do
 
   context '.create' do
     it 'returns an Awesm::Project' do
-      project = Awesm::Project.create(:name => "Totally Awesome Project")
+      project = Awesm::Project.create(:name => "TotallyAwesomeProject")
       project.should be_an_instance_of(Awesm::Project)
     end
 
     it 'posts to the awe.sm project creation api properly' do
-      Awesm::Project.create({ :name => "Totally Awesome Project" })
+      Awesm::Project.create({ :name => "TotallyAwesomeProject" })
 
       a_request(:post, "http://api.awe.sm/projects/new").
-        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "Totally Awesome Project" }.to_json }).
+        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
         should have_been_made.once
     end
   end
 
   describe '#api_key' do
     it 'returns the awe.sm api_key' do
-      project = Awesm::Project.create({ :name => "Totally Awesome Project" })
+      project = Awesm::Project.create({ :name => "TotallyAwesomeProject" })
       project.api_key.should == '6xxxxxxxxx58xx0xxx74xx3x76xx83x6x34xx48x7xxxx55x167037818d65x66x'
     end
   end
