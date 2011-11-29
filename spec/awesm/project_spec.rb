@@ -26,11 +26,29 @@ describe Awesm::Project do
     }.to_json
   end
 
+  let(:json_error_response) do
+    {
+      "request" => {
+        "application_key" => "app-xxxxxx",
+        "json" => "{\"name\" =>\"ExistingAwesomeProject\"}",
+        "method" => "new",
+        "object" => "project",
+        "subscription_key" => "sub-xxxxxx"
+      },
+      "error" => {
+        "code"=>10001,
+        "message"=>"Project name already exists (not necessarily in your subscription). Please choose another."
+      }
+    }.to_json
+  end
+
   before do
     Awesm.subscription_key = 'sub-xxxxxx'
     Awesm.application_key = 'app-xxxxxx'
     stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+    stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22ExistingAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+       to_return(:status => 400, :body => json_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
   end
   after do
     Awesm.subscription_key = nil
@@ -38,9 +56,18 @@ describe Awesm::Project do
   end
 
   context '.create' do
-    it 'returns an Awesm::Project' do
-      project = Awesm::Project.create(:name => "TotallyAwesomeProject")
-      project.should be_an_instance_of(Awesm::Project)
+    context 'when an error occurs' do
+      it 'returns nil' do
+        project = Awesm::Project.create(:name => "ExistingAwesomeProject")
+        project.should == nil
+      end
+    end
+
+    context 'when successful' do
+      it 'returns an Awesm::Project' do
+        project = Awesm::Project.create(:name => "TotallyAwesomeProject")
+        project.should be_an_instance_of(Awesm::Project)
+      end
     end
 
     it 'posts to the awe.sm project creation api properly' do
