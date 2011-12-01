@@ -17,7 +17,7 @@ describe Awesm::Project do
           "created_at" => "2011-10-25 00:43:49",
           "default_domain" => "awe.sm",
           "domains" => [],
-          "name" => "myNewProject",
+          "name" => "TotallyAwesomeProject",
           "sharers" => [],
           "updated_at" => "2011-10-25 00:43:49",
           "viewers" => []
