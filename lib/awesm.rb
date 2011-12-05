@@ -4,6 +4,7 @@ require 'hashie'
 
 require 'awesm/version'
 require 'awesm/project'
+require 'awesm/url'
 
 module Awesm
   def self.subscription_key=(key)
