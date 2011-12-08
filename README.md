@@ -46,10 +46,11 @@ And in your code:
 * push to a topic branch
 * send us a pull request :)
 
-## Manitainers ##
+## Contributors ##
 
 * *Sathya Sekaran*
 * *Michael Durnhofer*
+* *Cody Johnston*
 
 ## Many Thanks To ##
 * our employer, Topspin Media, Inc. (http://topspinmedia.com)
