@@ -22,6 +22,10 @@ And in your code:
     project = Awesm::Project.create(:name => 'TotallyAwesm')
     project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'
 
+    # List projects
+    projects = Awesm::Project.list
+    projects.first.class # => Awesm::Project
+
     # Create a sharing link
     # (This is currently very rudimentary--only the options shown will work.)
     Awesm::Url.share(:url => 'http://developers.awe.sm/',
