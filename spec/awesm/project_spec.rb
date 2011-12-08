@@ -36,8 +36,8 @@ describe Awesm::Project do
         "subscription_key" => "sub-xxxxxx"
       },
       "error" => {
-        "code"=>10001,
-        "message"=>"Project name already exists (not necessarily in your subscription). Please choose another."
+        "code" => 10001,
+        "message" => "Project name already exists (not necessarily in your subscription). Please choose another."
       }
     }.to_json
   end

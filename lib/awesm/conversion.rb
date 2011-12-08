@@ -5,7 +5,6 @@ module Awesm
 
     def self.convert(params)
       response = get('/new', :query => params)
-      debugger
       if response.has_key?("error")
         nil
       else
