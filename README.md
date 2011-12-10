@@ -28,11 +28,12 @@ And in your code:
 
     # Notify Awe.sm of a goal conversion
     Awesm::Conversion.convert(
-      :key => "5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9",
+      :key => "f2d8aeb112f1e0bedd7c05653e3265d2622635a3180f336f73b172267f7fe6ee",
       :awesm_url => "awe.sm_5WXHo",
       :conversion_type => "goal_1",
-      :conversion_value => "1230"
+      :conversion_value => 1230
     )
+    # => #<Awesm::Conversion account_conversionid=nil account_id="12" account_userid=nil awesm_url="awe.sm_5WXHo" clicker_id=nil converted_at=1323475432 href=nil id="bfdaddec-2298-43fb-9da0-f12d81febbf6" ip_address=nil language=nil redirection_id="94585739" referrer=nil session_id=nil type="goal_1" user_agent=nil value=1230>
 
     # Create a sharing link
     Awesm::Url.share(

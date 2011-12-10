@@ -41,7 +41,7 @@ describe Awesm::Conversion do
         "awesm_url" => "awe.sm_5WXHo",
         "controller" => "conversion",
         "conversion_type" => "goal_1",
-        "conversion_value" => "1230",
+        "conversion_value" => 1230,
         "key" => "badkeyabcdefghijklmnopqrstuvwxyz1234567890"
       },
       "error" => {
@@ -65,7 +65,7 @@ describe Awesm::Conversion do
           :key => "badkeyabcdefghijklmnopqrstuvwxyz1234567890",
           :awesm_url => "awe.sm_5WXHo",
           :conversion_type => "goal_1",
-          :conversion_value => "1230"
+          :conversion_value => 1230
         }
         conversion = Awesm::Conversion.convert(params)
         conversion.should == nil
@@ -78,7 +78,7 @@ describe Awesm::Conversion do
           :key => "f2d8aeb112f1e0bedd7c05653e3265d2622635a3180f336f73b172267f7fe6ee",
           :awesm_url => "awe.sm_5WXHo",
           :conversion_type => "goal_1",
-          :conversion_value => "1230"
+          :conversion_value => 1230
         }
 
         conversion = Awesm::Conversion.convert(params)
@@ -91,7 +91,7 @@ describe Awesm::Conversion do
           :key => "f2d8aeb112f1e0bedd7c05653e3265d2622635a3180f336f73b172267f7fe6ee",
           :awesm_url => "awe.sm_5WXHo",
           :conversion_type => "goal_1",
-          :conversion_value => "1230"
+          :conversion_value => 1230
         }
 
       conversion = Awesm::Conversion.convert(params)
