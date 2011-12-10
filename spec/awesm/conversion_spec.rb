@@ -41,7 +41,7 @@ describe Awesm::Conversion do
         "awesm_url" => "awe.sm_5WXHo",
         "controller" => "conversion",
         "conversion_type" => "goal_1",
-        "conversion_value" => 1230,
+        "conversion_value" => "1230",
         "key" => "badkeyabcdefghijklmnopqrstuvwxyz1234567890"
       },
       "error" => {
