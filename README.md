@@ -47,6 +47,14 @@ And in your code:
     )
     # => "http://api.awe.sm/url/share?v=3&url=http://developers.awe.sm/&key=5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9&tool=mKU7uN&channel=twitter&destination=http://twitter.com/intent/tweet?text=This+is+the+coolest+API+evar!%26url=AWESM_URL%26via=awesm&parent=awe.sm_s5d99&user_id=42"
 
+    # Retrieve stats in return for your hard work!
+    stats = Awesm::Stats.range(
+      :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :start_date => '2011-09-01',
+      :end_date   => '2011-10-01'
+    )
+    stats.totals.clicks # => 1024
+
 ## Contributing ##
 
 * fork
