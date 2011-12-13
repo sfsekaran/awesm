@@ -6,6 +6,7 @@ require 'awesm/version'
 require 'awesm/project'
 require 'awesm/conversion'
 require 'awesm/url'
+require 'awesm/stats'
 
 module Awesm
   def self.subscription_key=(key)
