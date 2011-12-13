@@ -140,10 +140,10 @@ describe Awesm::Project do
     let(:json_error_response) do
       {
         "request" => {
-          "action" => "list", 
-          "subscription_key" => "butt", 
-          "application_key" => "tlVC3D", 
-          "controller" => "project" 
+          "action" => "list",
+          "subscription_key" => "butt",
+          "application_key" => "tlVC3D",
+          "controller" => "project"
         },
         "error" => "Invalid subscription key"
       }.to_json
@@ -181,7 +181,7 @@ describe Awesm::Project do
   end
 
   describe '#api_key' do
-    let(:json_response) do 
+    let(:json_response) do
       {
         "request" => {
           "application_key" => "app-xxxxxx",
