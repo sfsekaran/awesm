@@ -21,6 +21,10 @@ And in your code:
     # Create a project
     project = Awesm::Project.create(:name => 'TotallyAwesm')
     project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'
+    # or
+    project = Awesm::Project.new(:name => 'TotallyAwesm')
+    project.save # => true
+    project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'
 
     # List projects
     projects = Awesm::Project.list
