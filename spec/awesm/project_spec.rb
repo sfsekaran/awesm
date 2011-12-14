@@ -12,53 +12,53 @@ describe Awesm::Project do
     Awesm.application_key = nil
   end
 
+  let(:new_project_response) do
+    {
+      "request" => {
+        "application_key" => "app-xxxxxx",
+        "json" => "{\"name\" =>\"TotallyAwesomeProject\"}",
+        "method" => "new",
+        "object" => "project",
+        "subscription_key" => "sub-xxxxxx"
+      },
+      "response" => {
+        "project" => {
+          "admins" => [],
+          "api_key" => "6xxxxxxxxx58xx0xxx74xx3x76xx83x6x34xx48x7xxxx55x167037818d65x66x",
+          "created_at" => "2011-10-25 00:43:49",
+          "default_domain" => "awe.sm",
+          "domains" => [],
+          "name" => "TotallyAwesomeProject",
+          "sharers" => [],
+          "updated_at" => "2011-10-25 00:43:49",
+          "viewers" => []
+        }
+      }
+    }.to_json
+  end
+
+  let(:new_project_error_response) do
+    {
+      "request" => {
+      "application_key" => "app-xxxxxx",
+      "json" => "{\"name\" =>\"ExistingAwesomeProject\"}",
+      "method" => "new",
+      "object" => "project",
+      "subscription_key" => "sub-xxxxxx"
+    },
+      "error" => {
+      "code" => 10001,
+      "message" => "Project name already exists (not necessarily in your subscription). Please choose another."
+    }
+    }.to_json
+  end
+
   context '.create' do
-    let(:json_response) do 
-      {
-        "request" => {
-          "application_key" => "app-xxxxxx",
-          "json" => "{\"name\" =>\"TotallyAwesomeProject\"}",
-          "method" => "new",
-          "object" => "project",
-          "subscription_key" => "sub-xxxxxx"
-        },
-        "response" => {
-          "project" => {
-            "admins" => [],
-            "api_key" => "6xxxxxxxxx58xx0xxx74xx3x76xx83x6x34xx48x7xxxx55x167037818d65x66x",
-            "created_at" => "2011-10-25 00:43:49",
-            "default_domain" => "awe.sm",
-            "domains" => [],
-            "name" => "TotallyAwesomeProject",
-            "sharers" => [],
-            "updated_at" => "2011-10-25 00:43:49",
-            "viewers" => []
-          }
-        }
-      }.to_json
-    end
-
-    let(:json_error_response) do
-      {
-        "request" => {
-          "application_key" => "app-xxxxxx",
-          "json" => "{\"name\" =>\"ExistingAwesomeProject\"}",
-          "method" => "new",
-          "object" => "project",
-          "subscription_key" => "sub-xxxxxx"
-        },
-        "error" => {
-          "code" => 10001,
-          "message" => "Project name already exists (not necessarily in your subscription). Please choose another."
-        }
-      }.to_json
-    end
-
     before do
       stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
-        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+        to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
       stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22ExistingAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
-        to_return(:status => 400, :body => json_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+        to_return(:status => 400, :body => new_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
     context 'when an error occurs' do
@@ -84,8 +84,60 @@ describe Awesm::Project do
     end
   end
 
+  describe '.new' do
+    it 'accepts project attributes' do
+      project = Awesm::Project.new(:name => 'HooHah')
+      project.name.should == 'HooHah'
+    end
+  end
+
+  describe '#save' do
+    before do
+      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+        to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22ExistingAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+        to_return(:status => 400, :body => new_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+    end
+
+    let(:project) { Awesm::Project.new(:name => 'TotallyAwesomeProject') }
+    let(:existing_project) { Awesm::Project.new(:name => 'ExistingAwesomeProject') }
+
+    context 'with no existing projects' do
+      it 'calls the correct project/new api' do
+        project.save
+
+        a_request(:post, "http://api.awe.sm/projects/new").
+          with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
+          should have_been_made.once
+      end
+
+      it 'returns true' do
+        project.save.should == true
+      end
+    end
+
+    context 'when the project already exists' do
+      it 'returns false' do
+        existing_project.save.should == false
+      end
+
+      it 'sets the error code' do
+        existing_project.save
+        existing_project.error.code.should == 10001
+      end
+
+      it 'sets the error message' do
+        existing_project.save
+        existing_project.error.message.should == 'Project name already exists (not necessarily in your subscription). Please choose another.'
+      end
+    end
+
+    it 'updates a project in awe.sm if it exists and attributes have changed'
+    it 'does not update a project in awe.sm if it exists and attributes have not changed'
+  end
+
   describe '.list' do
-    let(:json_response) do
+    let(:list_project_response) do
       {
         "request" => {
           "application_key" => "app-xxxxxx",
@@ -137,7 +189,7 @@ describe Awesm::Project do
       }.to_json
     end
 
-    let(:json_error_response) do
+    let(:list_project_error_response) do
       {
         "request" => {
           "action" => "list",
@@ -151,9 +203,9 @@ describe Awesm::Project do
 
     before do
       stub_request(:post, "http://api.awe.sm/projects/list?subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
-        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+        to_return(:status => 200, :body => list_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
       stub_request(:post, "http://api.awe.sm/projects/list?subscription_key=invalid&application_key=app-xxxxxx").
-        to_return(:status => 400, :body => json_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+        to_return(:status => 400, :body => list_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
     it 'posts to the awe.sm project list api properly' do
@@ -181,34 +233,9 @@ describe Awesm::Project do
   end
 
   describe '#api_key' do
-    let(:json_response) do
-      {
-        "request" => {
-          "application_key" => "app-xxxxxx",
-          "json" => "{\"name\" =>\"TotallyAwesomeProject\"}",
-          "method" => "new",
-          "object" => "project",
-          "subscription_key" => "sub-xxxxxx"
-        },
-        "response" => {
-          "project" => {
-            "admins" => [],
-            "api_key" => "6xxxxxxxxx58xx0xxx74xx3x76xx83x6x34xx48x7xxxx55x167037818d65x66x",
-            "created_at" => "2011-10-25 00:43:49",
-            "default_domain" => "awe.sm",
-            "domains" => [],
-            "name" => "TotallyAwesomeProject",
-            "sharers" => [],
-            "updated_at" => "2011-10-25 00:43:49",
-            "viewers" => []
-          }
-        }
-      }.to_json
-    end
-
     before do
       stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
-        to_return(:status => 200, :body => json_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+        to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
     it 'returns the awe.sm api_key' do
