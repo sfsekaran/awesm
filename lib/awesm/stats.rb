@@ -6,11 +6,13 @@ module Awesm
 
     def self.range(options)
       response = get '/range.json', :query => { :v => 3 }.merge(options)
-      if response.has_key?('error')
-        nil
-      else
-        new(response)
-      end
+      new(response)
+    end
+
+    def self.url(options)
+      awesm_id = options.delete(:awesm_id)
+      response = get "/#{awesm_id}.json", :query => { :v => 3 }.merge(options)
+      new(response)
     end
   end
 end

@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Awesm::Stats do
+  let(:invalid_key_response) do
+    {
+      "error" => 403,
+      "error_message" => "Invalid API key specified"
+    }.to_json
+  end
+
   describe '.range' do
     let(:basic_response) do
       {
@@ -27,13 +34,6 @@ describe Awesm::Stats do
         "with_conversions" => false,
         "with_metadata" => false,
         "with_zeros" => false
-      }.to_json
-    end
-
-    let(:invalid_key_response) do
-      {
-        "error" => 403,
-        "error_message" => "Invalid API key specified"
       }.to_json
     end
 
@@ -72,13 +72,22 @@ describe Awesm::Stats do
         should have_been_made.once
     end
 
-    it 'gets with an incorrect key' do
+    it 'returns an error code when using an incorrect key' do
       stats = Awesm::Stats.range(
         :key        => 'fake_key',
         :start_date => '2011-09-01',
         :end_date   => '2011-10-01'
       )
-      stats.should == nil
+      stats.error.should == 403
+    end
+
+    it 'returns an error code when using an incorrect key' do
+      stats = Awesm::Stats.range(
+        :key        => 'fake_key',
+        :start_date => '2011-09-01',
+        :end_date   => '2011-10-01'
+      )
+      stats.error_message.should == 'Invalid API key specified'
     end
 
     it 'returns an instance of Awesm::Stats' do
@@ -88,6 +97,53 @@ describe Awesm::Stats do
         :end_date   => '2011-10-01'
       )
       stats.should be_an_instance_of(Awesm::Stats)
+    end
+  end
+
+  describe '.url' do
+    let(:stats_response) do
+      {
+        "awesm_id"         => "demo.awe.sm_K7e",
+        "clicks"           => 5,
+        "end_date"         => nil,
+        "interval"         => "none",
+        "start_date"       => nil,
+        "with_conversions" => false,
+        "with_metadata"    => false,
+        "with_zeros"       => false
+      }.to_json
+    end
+
+    before do
+      stub_request(:get, "http://api.awe.sm/stats/demo.awe.sm_K7e.json").
+        with(:query => { :v => '3', :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9' }).
+        to_return(:status => 200, :body => stats_response, :headers => {})
+      stub_request(:get, "http://api.awe.sm/stats/demo.awe.sm_K7e.json").
+        with(:query => { :v => '3', :key => 'wrong' }).
+        to_return(:status => 200, :body => invalid_key_response, :headers => {})
+    end
+
+    it 'should make the correct api call' do
+      Awesm::Stats.url(:key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9', :awesm_id => 'demo.awe.sm_K7e')
+
+      a_request(:get, 'http://api.awe.sm/stats/demo.awe.sm_K7e.json').
+        with(:query => { :v => '3', :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9' }).
+        should have_been_made.once
+    end
+
+    it 'should return an instance of Awesm::Stats' do
+      stats = Awesm::Stats.url(:key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9', :awesm_id => 'demo.awe.sm_K7e')
+      stats.should be_an_instance_of(Awesm::Stats)
+    end
+
+    it 'should return an error code with incorrect request info' do
+      stats = Awesm::Stats.url(:key => 'wrong', :awesm_id => 'demo.awe.sm_K7e')
+      stats.error.should == 403
+    end
+
+    it 'should return an error message with incorrect request info' do
+      stats = Awesm::Stats.url(:key => 'wrong', :awesm_id => 'demo.awe.sm_K7e')
+      stats.error_message.should == 'Invalid API key specified'
     end
   end
 end
