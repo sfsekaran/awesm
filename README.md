@@ -59,6 +59,12 @@ And in your code:
     )
     stats.totals.clicks # => 1024
 
+    url_stats = Awesm::Stats.url(
+      :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :awesm_id => 'demo.awe.sm_K7e'
+    )
+    url_stats.clicks # => 256
+
 ## Contributing ##
 
 * fork
