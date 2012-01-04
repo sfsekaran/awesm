@@ -19,12 +19,39 @@ And in your code:
     Awesm.application_key = 'app-xxxxxx'
 
     # Create a project
-    project = Awesm::Project.create(:name => 'TotallyAwesm')
+    project = Awesm::Project.create({
+      :name => "myNewProject",
+      :domains => [
+        "examp.le",
+        "demo.examp.le"
+      ],
+      :default_domain => "examp.le",
+      :admins => [
+        "jeremiah"
+      ],
+      :sharers => [
+        "paul@example.com"
+      ],
+      :viewers => [
+        "9x69x9x0-42x1-420x-9876-123139064x99"
+      ],
+      :conversions => {
+        :enabled => true,
+        :domains => [
+          "example.com",
+          "www.example.com",
+          "example.net"
+        ],
+        :goal_1_label => "Liked our Facebook Page",
+        :goal_2_label => "Downloaded Photo of the Day",
+        :goal_3_label => "Purchase"
+      }
+    })
     project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'
     # or
     project = Awesm::Project.new(:name => 'TotallyAwesm')
     project.save # => true
-    project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'
+    project.api_key # => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045e9'
 
     # List projects
     projects = Awesm::Project.list
