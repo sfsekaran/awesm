@@ -1,6 +1,6 @@
 # Awesm #
 
-The *awesm* gem is an easy way to access the awe.sm API (http://totally.awe.sm).
+The *awesm* gem is an easy way to access the awe.sm API (http://developers.awe.sm).
 
 You can find the YARD documentation for the latest release here: http://rdoc.info/github/sfsekaran/awesm/frames
 
