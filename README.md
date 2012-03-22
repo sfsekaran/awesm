@@ -5,8 +5,8 @@ The *awesm* gem is an easy way to access the awe.sm API (http://totally.awe.sm).
 You can find the YARD documentation for the latest release here: http://rdoc.info/github/sfsekaran/awesm/frames
 
 We're actively developing this (and it's not yet production ready) but please
-feel free to send us a pull request from a topic branch with specs and an
-explanation :)
+feel free to send us a pull request from a topic branch with specs,
+documentation, and an explanation :)
 
 ## Usage ##
 
@@ -100,7 +100,7 @@ And in your code:
 * clone
 * bundle install
 * bundle exec rspec spec
-* commit code with passing specs
+* commit code with passing specs and documentation
 * push to a topic branch
 * send us a pull request :)
 
