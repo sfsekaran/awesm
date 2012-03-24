@@ -2,6 +2,7 @@ module Awesm
   class Project < Hashie::Mash
     include HTTParty
     base_uri 'http://api.awe.sm/projects'
+    format :json
 
     def self.create(attributes)
       project = self.new(attributes)
@@ -35,6 +36,11 @@ module Awesm
         update(response['response']['project'])
         true
       end
+    end
+
+    def destroy
+      response = self.class.post("/#{api_key}/destroy", :query => { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key })
+      true unless response.has_key?('error')
     end
   end
 end

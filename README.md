@@ -59,6 +59,9 @@ And in your code:
     projects = Awesm::Project.list
     projects.first.class # => Awesm::Project
 
+    # Delete a project
+    project.destroy # => true
+
     # Notify Awe.sm of a goal conversion
     Awesm::Conversion.convert(
       :key => "f2d8aeb112f1e0bedd7c05653e3265d2622635a3180f336f73b172267f7fe6ee",

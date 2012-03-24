@@ -53,6 +53,21 @@ describe Awesm::Project do
     }.to_json
   end
 
+  let(:delete_project_response) do
+    {
+      :request => {
+        :apikey => "9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681",
+        :subscription_key => "sub-xxxxxx",
+        :application_key => "app-xxxxxx",
+        :object => "project",
+        :method => "delete"
+      },
+      :response => {
+        :deleted => true
+      }
+    }.to_json
+  end
+
   context '.create' do
     before do
       stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
@@ -134,6 +149,27 @@ describe Awesm::Project do
 
     it 'updates a project in awe.sm if it exists and attributes have changed'
     it 'does not update a project in awe.sm if it exists and attributes have not changed'
+  end
+
+  describe "#destroy" do
+    let(:existing_project) { Awesm::Project.new(:name => 'ExistingAwesomeProject', :api_key => '9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681') }
+
+    before do
+      stub_request(:post, "http://api.awe.sm/projects/9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681/destroy?application_key=app-xxxxxx&subscription_key=sub-xxxxxx").
+         to_return(:status => 200, :body => delete_project_response, :headers => {})
+    end
+
+    it 'posts to the project destroy api' do
+      existing_project.destroy
+
+      a_request(:post, "http://api.awe.sm/projects/#{existing_project.api_key}/destroy").
+        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx"}).
+        should have_been_made.once
+    end
+
+    it 'returns true on success' do
+      existing_project.destroy.should == true
+    end
   end
 
   describe '.list' do
