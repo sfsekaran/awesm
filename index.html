@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Awesm : Awe.sm API gem!" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Awesm</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/sfsekaran/awesm">View on GitHub</a>
+
+          <h1 id="project_title">Awesm</h1>
+          <h2 id="project_tagline">Awe.sm API gem!</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/sfsekaran/awesm/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/sfsekaran/awesm/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Awesm</h1>
+
+<p>The <em>awesm</em> gem is an easy way to access the awe.sm API (<a href="http://developers.awe.sm">http://developers.awe.sm</a>).</p>
+
+<p>You can find the YARD documentation for the latest release here: <a href="http://rdoc.info/github/sfsekaran/awesm/frames">http://rdoc.info/github/sfsekaran/awesm/frames</a></p>
+
+<p>We're actively developing this (and it's not yet production ready) but please
+feel free to send us a pull request from a topic branch with specs,
+documentation, and an explanation :)</p>
+
+<h2>Usage</h2>
+
+<p>In your Gemfile:</p>
+
+<div class="highlight">
+<pre>    <span class="n">gem</span> <span class="s1">'awesm'</span>
+</pre>
+</div>
+
+
+<p>And in your code:</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># Initialize</span>
+    <span class="no">Awesm</span><span class="o">.</span><span class="n">subscription_key</span> <span class="o">=</span> <span class="s1">'sub-xxxxxx'</span>
+    <span class="no">Awesm</span><span class="o">.</span><span class="n">application_key</span> <span class="o">=</span> <span class="s1">'app-xxxxxx'</span>
+
+    <span class="c1"># Create a project</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Project</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+      <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">"myNewProject"</span><span class="p">,</span>
+      <span class="ss">:domains</span> <span class="o">=&gt;</span> <span class="o">[</span>
+        <span class="s2">"examp.le"</span><span class="p">,</span>
+        <span class="s2">"demo.examp.le"</span>
+      <span class="o">]</span><span class="p">,</span>
+      <span class="ss">:default_domain</span> <span class="o">=&gt;</span> <span class="s2">"examp.le"</span><span class="p">,</span>
+      <span class="ss">:admins</span> <span class="o">=&gt;</span> <span class="o">[</span>
+        <span class="s2">"jeremiah"</span>
+      <span class="o">]</span><span class="p">,</span>
+      <span class="ss">:sharers</span> <span class="o">=&gt;</span> <span class="o">[</span>
+        <span class="s2">"paul@example.com"</span>
+      <span class="o">]</span><span class="p">,</span>
+      <span class="ss">:viewers</span> <span class="o">=&gt;</span> <span class="o">[</span>
+        <span class="s2">"9x69x9x0-42x1-420x-9876-123139064x99"</span>
+      <span class="o">]</span><span class="p">,</span>
+      <span class="ss">:conversions</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+        <span class="ss">:domains</span> <span class="o">=&gt;</span> <span class="o">[</span>
+          <span class="s2">"example.com"</span><span class="p">,</span>
+          <span class="s2">"www.example.com"</span><span class="p">,</span>
+          <span class="s2">"example.net"</span>
+        <span class="o">]</span><span class="p">,</span>
+        <span class="ss">:goal_1_label</span> <span class="o">=&gt;</span> <span class="s2">"Liked our Facebook Page"</span><span class="p">,</span>
+        <span class="ss">:goal_2_label</span> <span class="o">=&gt;</span> <span class="s2">"Downloaded Photo of the Day"</span><span class="p">,</span>
+        <span class="ss">:goal_3_label</span> <span class="o">=&gt;</span> <span class="s2">"Purchase"</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">api_key</span> <span class="c1"># =&gt; '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span>
+    <span class="c1"># or</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Project</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'TotallyAwesm'</span><span class="p">)</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">save</span> <span class="c1"># =&gt; true</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">api_key</span> <span class="c1"># =&gt; '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045e9'</span>
+
+    <span class="c1"># List projects</span>
+    <span class="n">projects</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Project</span><span class="o">.</span><span class="n">list</span>
+    <span class="n">projects</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; Awesm::Project</span>
+
+    <span class="c1"># Delete a project</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">destroy</span> <span class="c1"># =&gt; true</span>
+
+    <span class="c1"># Notify Awe.sm of a goal conversion</span>
+    <span class="no">Awesm</span><span class="o">::</span><span class="no">Conversion</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s2">"f2d8aeb112f1e0bedd7c05653e3265d2622635a3180f336f73b172267f7fe6ee"</span><span class="p">,</span>
+      <span class="ss">:awesm_url</span> <span class="o">=&gt;</span> <span class="s2">"awe.sm_5WXHo"</span><span class="p">,</span>
+      <span class="ss">:conversion_type</span> <span class="o">=&gt;</span> <span class="s2">"goal_1"</span><span class="p">,</span>
+      <span class="ss">:conversion_value</span> <span class="o">=&gt;</span> <span class="mi">1230</span>
+    <span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;Awesm::Conversion account_conversionid=nil account_id="12" account_userid=nil awesm_url="awe.sm_5WXHo" clicker_id=nil converted_at=1323475432 href=nil id="bfdaddec-2298-43fb-9da0-f12d81febbf6" ip_address=nil language=nil redirection_id="94585739" referrer=nil session_id=nil type="goal_1" user_agent=nil value=1230&gt;</span>
+
+    <span class="c1"># List projects</span>
+    <span class="n">projects</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Project</span><span class="o">.</span><span class="n">list</span>
+    <span class="n">projects</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; Awesm::Project</span>
+
+    <span class="c1"># Create an awesm url</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Url</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+      <span class="ss">:channel</span> <span class="o">=&gt;</span> <span class="s1">'twitter'</span><span class="p">,</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:tool</span> <span class="o">=&gt;</span> <span class="s1">'mKU7uN'</span><span class="p">,</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">'http://developers.awe.sm/'</span>
+    <span class="p">)</span>
+    <span class="n">url</span><span class="o">.</span><span class="n">awesm_url</span> <span class="c1"># =&gt; "http://demo.awe.sm/ELZ"</span>
+
+    <span class="c1"># Create a static url</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Url</span><span class="o">.</span><span class="n">static</span><span class="p">(</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">'http://developers.awe.sm/'</span><span class="p">,</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:tool</span> <span class="o">=&gt;</span> <span class="s1">'mKU7uN'</span>
+    <span class="p">)</span>
+    <span class="n">url</span><span class="o">.</span><span class="n">awesm_url</span> <span class="c1"># =&gt; "http://demo.awe.sm/ELZ"</span>
+
+    <span class="c1"># Create a sharing link</span>
+    <span class="no">Awesm</span><span class="o">::</span><span class="no">Url</span><span class="o">.</span><span class="n">share</span><span class="p">(</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">'http://developers.awe.sm/'</span><span class="p">,</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:tool</span> <span class="o">=&gt;</span> <span class="s1">'mKU7uN'</span><span class="p">,</span>
+      <span class="ss">:channel</span> <span class="o">=&gt;</span> <span class="s1">'twitter'</span><span class="p">,</span>
+      <span class="ss">:destination</span> <span class="o">=&gt;</span> <span class="s1">'http://twitter.com/intent/tweet?text=This+is+the+coolest+API+evar!%26url=AWESM_URL%26via=awesm'</span><span class="p">,</span>
+      <span class="ss">:parent</span> <span class="o">=&gt;</span> <span class="s1">'awe.sm_s5d99'</span><span class="p">,</span>
+      <span class="ss">:user_id</span> <span class="o">=&gt;</span> <span class="s1">'42'</span>
+    <span class="p">)</span>
+    <span class="c1"># =&gt; "http://api.awe.sm/url/share?v=3&amp;url=http://developers.awe.sm/&amp;key=5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9&amp;tool=mKU7uN&amp;channel=twitter&amp;destination=http://twitter.com/intent/tweet?text=This+is+the+coolest+API+evar!%26url=AWESM_URL%26via=awesm&amp;parent=awe.sm_s5d99&amp;user_id=42"</span>
+
+    <span class="c1"># Create a static link</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Url</span><span class="o">.</span><span class="n">static</span><span class="p">(</span>
+      <span class="ss">:format</span> <span class="o">=&gt;</span> <span class="s1">'json'</span><span class="p">,</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">'http://developers.awe.sm/'</span><span class="p">,</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:tool</span> <span class="o">=&gt;</span> <span class="s1">'mKU7uN'</span>
+    <span class="p">)</span>
+    <span class="n">url</span><span class="o">.</span><span class="n">awesm_url</span> <span class="c1"># =&gt; "http://demo.awe.sm/ELZ"</span>
+
+    <span class="n">awesm_url</span><span class="o">=</span><span class="s2">"http://demo.awe.sm/K5s"</span>
+    <span class="c1"># Retrieve stats in return for your hard work!</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Stats</span><span class="o">.</span><span class="n">range</span><span class="p">(</span>
+      <span class="ss">:key</span>        <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:start_date</span> <span class="o">=&gt;</span> <span class="s1">'2011-09-01'</span><span class="p">,</span>
+      <span class="ss">:end_date</span>   <span class="o">=&gt;</span> <span class="s1">'2011-10-01'</span>
+    <span class="p">)</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">totals</span><span class="o">.</span><span class="n">clicks</span> <span class="c1"># =&gt; 1024</span>
+
+    <span class="n">url_stats</span> <span class="o">=</span> <span class="no">Awesm</span><span class="o">::</span><span class="no">Stats</span><span class="o">.</span><span class="n">url</span><span class="p">(</span>
+      <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">'5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9'</span><span class="p">,</span>
+      <span class="ss">:awesm_id</span> <span class="o">=&gt;</span> <span class="s1">'demo.awe.sm_K7e'</span>
+    <span class="p">)</span>
+    <span class="n">url_stats</span><span class="o">.</span><span class="n">clicks</span> <span class="c1"># =&gt; 256</span>
+</pre>
+</div>
+
+
+<h2>Contributing</h2>
+
+<ul>
+<li>fork</li>
+<li>clone</li>
+<li>bundle install</li>
+<li>bundle exec rspec spec</li>
+<li>commit code with passing specs and documentation</li>
+<li>push to a topic branch</li>
+<li>send us a pull request :)</li>
+</ul><h2>Contributors</h2>
+
+<ul>
+<li><em>Sathya Sekaran</em></li>
+<li><em>Michael Durnhofer</em></li>
+<li><em>Cody Johnston</em></li>
+</ul><h2>Many Thanks To</h2>
+
+<ul>
+<li>our employer, Topspin Media, Inc. (<a href="http://topspinmedia.com">http://topspinmedia.com</a>)</li>
+<li>and the good folks at awe.sm (<a href="http://totally.awe.sm">http://totally.awe.sm</a>)</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Awesm maintained by <a href="https://github.com/sfsekaran">sfsekaran</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
