@@ -68,7 +68,7 @@ describe Awesm::Project do
     }.to_json
   end
 
-  context '.create' do
+  describe '.create' do
     before do
       stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
         to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
