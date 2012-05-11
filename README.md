@@ -71,6 +71,27 @@ And in your code:
     )
     # => #<Awesm::Conversion account_conversionid=nil account_id="12" account_userid=nil awesm_url="awe.sm_5WXHo" clicker_id=nil converted_at=1323475432 href=nil id="bfdaddec-2298-43fb-9da0-f12d81febbf6" ip_address=nil language=nil redirection_id="94585739" referrer=nil session_id=nil type="goal_1" user_agent=nil value=1230>
 
+    # List projects
+    projects = Awesm::Project.list
+    projects.first.class # => Awesm::Project
+
+    # Create an awesm url
+    url = Awesm::Url.create(
+      :channel => 'twitter',
+      :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :tool => 'mKU7uN',
+      :url => 'http://developers.awe.sm/'
+    )
+    url.awesm_url # => "http://demo.awe.sm/ELZ"
+
+    # Create a static url
+    url = Awesm::Url.static(
+      :url => 'http://developers.awe.sm/',
+      :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :tool => 'mKU7uN'
+    )
+    url.awesm_url # => "http://demo.awe.sm/ELZ"
+
     # Create a sharing link
     Awesm::Url.share(
       :url => 'http://developers.awe.sm/',
@@ -84,14 +105,15 @@ And in your code:
     # => "http://api.awe.sm/url/share?v=3&url=http://developers.awe.sm/&key=5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9&tool=mKU7uN&channel=twitter&destination=http://twitter.com/intent/tweet?text=This+is+the+coolest+API+evar!%26url=AWESM_URL%26via=awesm&parent=awe.sm_s5d99&user_id=42"
 
     # Create a static link
-    Awesm::Url.static(
+    url = Awesm::Url.static(
       :format => 'json',
       :url => 'http://developers.awe.sm/',
       :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
       :tool => 'mKU7uN'
     )
-    # => "http://api.awe.sm/url/static.json?v=3&url=http://developers.awe.sm/&key=5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9&tool=mKU7uN"
+    url.awesm_url # => "http://demo.awe.sm/ELZ"
 
+    awesm_url="http://demo.awe.sm/K5s"
     # Retrieve stats in return for your hard work!
     stats = Awesm::Stats.range(
       :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
