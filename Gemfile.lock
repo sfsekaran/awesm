@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    awesm (0.1.8)
+    awesm (0.1.9)
       hashie
       httparty (= 0.8.1)
       json
