@@ -1,12 +1,11 @@
 module Awesm
   class Url < Hashie::Mash
-    include HTTParty
-    base_uri 'http://api.awe.sm/url'
+    PATH = '/url'
     REQUIRED_SHARE_PARAMS = [:url, :key, :tool, :channel, :destination].freeze
 
     # Right now this method only supports the json format
     def self.create(params = {})
-      call_api('.json', params)
+      call_api("#{Awesm::HOST}#{PATH}.json", params)
     end
 
     def self.share(params = {})
@@ -14,7 +13,7 @@ module Awesm
         options = params.clone
         options = options.delete_if{|key,value| REQUIRED_SHARE_PARAMS.include?(key) }
         query = options.map{|k,v| "#{k}=#{v}"}.join('&')
-        share_url = "http://api.awe.sm/url/share?v=3&url=#{params[:url]}&key=#{params[:key]}&tool=#{params[:tool]}&channel=#{params[:channel]}&destination=#{params[:destination]}"
+        share_url = "#{Awesm::HOST}#{PATH}/share?v=3&url=#{params[:url]}&key=#{params[:key]}&tool=#{params[:tool]}&channel=#{params[:channel]}&destination=#{params[:destination]}"
         share_url += "&#{query}" if query.length > 0
         share_url
       end
@@ -22,7 +21,7 @@ module Awesm
 
     # Right now this method only supports the json format
     def self.static(params = {})
-      call_api('/static.json', params)
+      call_api("#{Awesm::HOST}#{PATH}/static.json", params)
     end
 
     #########
@@ -30,8 +29,13 @@ module Awesm
     #########
 
     def self.call_api(action, params)
-      response = post(action, :query => { :v => 3 }.merge(params))
-      response.code >= 400 ? nil : new(response)
+      response = Awesm.http_client.post(action, { :v => 3 }.merge(params))
+      unless response.status == 200
+        nil
+      else
+        json = JSON.parse response.content
+        new(json)
+      end
     end
 
     def self.required_params_present?(required_params, params)

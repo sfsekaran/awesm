@@ -70,9 +70,11 @@ describe Awesm::Project do
 
   describe '.create' do
     before do
-      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/new").
+        with(:body => { "application_key" => "app-xxxxxx", "json" => "{\"name\":\"TotallyAwesomeProject\"}", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
-      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22ExistingAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/new").
+        with(:body => { "application_key" => "app-xxxxxx", "json" => "{\"name\":\"ExistingAwesomeProject\"}", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 400, :body => new_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
@@ -94,7 +96,7 @@ describe Awesm::Project do
       Awesm::Project.create({ :name => "TotallyAwesomeProject" })
 
       a_request(:post, "http://api.awe.sm/projects/new").
-        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
+        with(:body => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
         should have_been_made.once
     end
   end
@@ -108,9 +110,11 @@ describe Awesm::Project do
 
   describe '#save' do
     before do
-      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/new").
+        with(:body => {"application_key" => "app-xxxxxx", "json" => "{\"name\":\"TotallyAwesomeProject\"}", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
-      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22ExistingAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/new").
+        with(:body => {"application_key" => "app-xxxxxx", "json" => "{\"name\":\"ExistingAwesomeProject\"}", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 400, :body => new_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
@@ -122,7 +126,7 @@ describe Awesm::Project do
         project.save
 
         a_request(:post, "http://api.awe.sm/projects/new").
-          with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
+          with(:body => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx", :json => { "name" => "TotallyAwesomeProject" }.to_json }).
           should have_been_made.once
       end
 
@@ -155,15 +159,16 @@ describe Awesm::Project do
     let(:existing_project) { Awesm::Project.new(:name => 'ExistingAwesomeProject', :api_key => '9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681') }
 
     before do
-      stub_request(:post, "http://api.awe.sm/projects/9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681/destroy?application_key=app-xxxxxx&subscription_key=sub-xxxxxx").
-         to_return(:status => 200, :body => delete_project_response, :headers => {})
+      stub_request(:post, "http://api.awe.sm/projects/9x863xx7xx12x56433059xx8091838f5f5589x71x04f4760490x6x79xx9xx681/destroy").
+        with(:body => {"application_key" => "app-xxxxxx", "subscription_key" => "sub-xxxxxx"}).
+        to_return(:status => 200, :body => delete_project_response, :headers => {})
     end
 
     it 'posts to the project destroy api' do
       existing_project.destroy
 
       a_request(:post, "http://api.awe.sm/projects/#{existing_project.api_key}/destroy").
-        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx"}).
+        with(:body => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx"}).
         should have_been_made.once
     end
 
@@ -238,9 +243,11 @@ describe Awesm::Project do
     end
 
     before do
-      stub_request(:post, "http://api.awe.sm/projects/list?subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/list").
+        with(:body => {"application_key" => "app-xxxxxx", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 200, :body => list_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
-      stub_request(:post, "http://api.awe.sm/projects/list?subscription_key=invalid&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/list").
+        with(:body => {"application_key" => "app-xxxxxx", "subscription_key" => "invalid"}).
         to_return(:status => 400, :body => list_project_error_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
@@ -248,7 +255,7 @@ describe Awesm::Project do
       Awesm::Project.list
 
       a_request(:post, "http://api.awe.sm/projects/list").
-        with(:query => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx"}).
+        with(:body => {:subscription_key => "sub-xxxxxx", :application_key => "app-xxxxxx"}).
         should have_been_made.once
     end
 
@@ -270,7 +277,8 @@ describe Awesm::Project do
 
   describe '#api_key' do
     before do
-      stub_request(:post, "http://api.awe.sm/projects/new?json=%7B%22name%22:%22TotallyAwesomeProject%22%7D&subscription_key=sub-xxxxxx&application_key=app-xxxxxx").
+      stub_request(:post, "http://api.awe.sm/projects/new").
+        with(:body => {"application_key" => "app-xxxxxx", "json" => "{\"name\":\"TotallyAwesomeProject\"}", "subscription_key" => "sub-xxxxxx"}).
         to_return(:status => 200, :body => new_project_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
     end
 
