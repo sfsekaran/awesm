@@ -1,18 +1,18 @@
 module Awesm
   class Stats < Hashie::Mash
-    include HTTParty
-    base_uri 'http://api.awe.sm/stats'
-    format :json
+    PATH = '/stats'
 
     def self.range(options)
-      response = get '/range.json', :query => { :v => 3 }.merge(options)
-      new(response)
+      response = Awesm.http_client.get "#{Awesm::HOST}#{PATH}/range.json", { :v => 3 }.merge(options)
+      json = JSON.parse response.content
+      new(json)
     end
 
     def self.url(options)
       awesm_id = options.delete(:awesm_id)
-      response = get "/#{awesm_id}.json", :query => { :v => 3 }.merge(options)
-      new(response)
+      response = Awesm.http_client.get "#{Awesm::HOST}#{PATH}/#{awesm_id}.json", { :v => 3 }.merge(options)
+      json = JSON.parse response.content
+      new(json)
     end
   end
 end

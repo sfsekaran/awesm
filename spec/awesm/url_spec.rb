@@ -81,9 +81,9 @@ describe Awesm::Url do
     end
 
     before do
-      expected_params = required_params.merge(:v => 3)
+      expected_params = required_params.merge(:v => "3")
       stub_request(:post, api_url).
-        with(:query => expected_params).
+        with(:body => expected_params).
         to_return(:status => 200,
                   :body => create_url_response,
                   :headers => {
@@ -93,9 +93,9 @@ describe Awesm::Url do
 
     context 'when an error occurs' do
       before do
-        expected_params = invalid_params.merge(:v => 3)
+        expected_params = invalid_params.merge(:v => "3")
         stub_request(:post, api_url).
-          with(:query => expected_params).
+          with(:body => expected_params).
           to_return(:status => 400,
                     :body => create_url_error_response,
                     :headers => {
@@ -117,10 +117,10 @@ describe Awesm::Url do
     end
 
     it 'posts to the awe.sm project creation api properly' do
-      expected_query = required_params.merge(:v => 3)
+      expected_query = required_params.merge(:v => "3")
       Awesm::Url.create(required_params)
       a_request(:post, "http://api.awe.sm/url.json").
-        with(:query => expected_query).
+        with(:body => expected_query).
         should have_been_made.once
     end
   end
@@ -246,9 +246,9 @@ describe Awesm::Url do
     end
 
     before do
-      expected_params = valid_params.merge(:v => 3)
+      expected_params = valid_params.merge(:v => "3")
       stub_request(:post, api_url).
-        with(:query => expected_params).
+        with(:body => expected_params).
         to_return(:status => 200,
                   :body => static_url_response,
                   :headers => {
@@ -258,9 +258,9 @@ describe Awesm::Url do
 
     context 'when an error occurs' do
       before do
-        expected_params = invalid_params.merge(:v => 3)
+        expected_params = invalid_params.merge(:v => "3")
         stub_request(:post, api_url).
-          with(:query => expected_params).
+          with(:body => expected_params).
           to_return(:status => 400,
                     :body => static_url_error_response,
                     :headers => {
@@ -282,10 +282,10 @@ describe Awesm::Url do
     end
 
     it 'posts to the awe.sm project creation api properly' do
-      expected_query = valid_params.merge(:v => 3)
+      expected_query = valid_params.merge(:v => "3")
       Awesm::Url.static(valid_params)
       a_request(:post, "http://api.awe.sm/url/static.json").
-        with(:query => expected_query).
+        with(:body => expected_query).
         should have_been_made.once
     end
   end
