@@ -1,8 +1,6 @@
 module Awesm
   class Project < Hashie::Mash
-    include HTTParty
-    base_uri 'http://api.awe.sm/projects'
-    format :json
+    PATH = '/projects'
 
     def self.create(attributes)
       project = self.new(attributes)
@@ -10,12 +8,13 @@ module Awesm
     end
 
     def self.list
-      response = post('/list', :query => { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key})
-      if response.has_key?("error")
+      response = Awesm.http_client.post("#{Awesm::HOST}#{PATH}/list", { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key})
+      unless response.status == 200
         nil
       else
         projects = []
-        response['response']['projects'].each do |project|
+        json = JSON.parse response.content
+        json['response']['projects'].each do |project|
           projects << new(project)
         end
         projects
@@ -27,20 +26,21 @@ module Awesm
     ####################
 
     def save
-      response = self.class.post('/new', :query => { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key, :json => self.to_hash.to_json })
-      if response.include?('error')
+      response = Awesm.http_client.post("#{Awesm::HOST}#{PATH}/new", :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key, :json => self.to_hash.to_json)
+      json = JSON.parse response.content
+      unless response.status.between? 200, 230
         # use mash to update error code and message
-        update(response)
+        update(json)
         false
       else
-        update(response['response']['project'])
+        update(json['response']['project'])
         true
       end
     end
 
     def destroy
-      response = self.class.post("/#{api_key}/destroy", :query => { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key })
-      true unless response.has_key?('error')
+      response = Awesm.http_client.post("#{Awesm::HOST}#{PATH}/#{api_key}/destroy", { :application_key => Awesm.application_key, :subscription_key => Awesm.subscription_key })
+      response.status == 200
     end
   end
 end

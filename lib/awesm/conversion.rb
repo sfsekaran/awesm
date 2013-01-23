@@ -1,14 +1,14 @@
 module Awesm
   class Conversion < Hashie::Mash
-    include HTTParty
-    base_uri 'http://api.awe.sm/conversions'
+    PATH = '/conversions'
 
     def self.convert(params)
-      response = get('/new', :query => params)
-      if response.has_key?("error")
+      response = Awesm.http_client.get("#{Awesm::HOST}#{PATH}/new", params)
+      unless response.status == 200
         nil
       else
-        new(response['response']['conversion'])
+        json = JSON.parse response.content
+        new(json['response']['conversion'])
       end
     end
   end

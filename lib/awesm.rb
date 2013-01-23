@@ -1,4 +1,5 @@
-require 'httparty'
+require 'httpclient'
+require 'httpclient/include_client'
 require 'json'
 require 'hashie'
 
@@ -9,6 +10,12 @@ require 'awesm/url'
 require 'awesm/stats'
 
 module Awesm
+  HOST = 'http://api.awe.sm'
+
+  extend HTTPClient::IncludeClient
+
+  include_http_client
+
   def self.subscription_key=(key)
     @@subscription_key = key
   end

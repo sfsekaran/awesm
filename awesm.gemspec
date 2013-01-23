@@ -19,13 +19,11 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here;
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "= 2.7.0"
-  s.add_development_dependency "webmock", "= 1.7.8"
-  s.add_development_dependency "json"
-  s.add_development_dependency "hashie"
-  s.add_development_dependency "ruby-debug"
+  s.add_development_dependency "rspec", ">= 2.7.0"
+  s.add_development_dependency "webmock", ">= 1.9.0"
+  s.add_development_dependency "pry"
 
-  s.add_runtime_dependency "httparty", "= 0.8.1"
+  s.add_runtime_dependency "httpclient"
   s.add_runtime_dependency "json"
   s.add_runtime_dependency "hashie"
 end

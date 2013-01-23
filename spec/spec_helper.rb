@@ -1,8 +1,8 @@
 require 'rubygems'
 Bundler.setup
 
-require 'ruby-debug'
 require 'webmock/rspec'
+require 'pry'
 
 require 'awesm'
 
