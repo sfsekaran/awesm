@@ -4,8 +4,9 @@ The *awesm* gem is an easy way to access the awe.sm API (http://developers.awe.s
 
 You can find the YARD documentation for the latest release here: http://rdoc.info/github/sfsekaran/awesm/frames
 
-We're actively developing this (and it's not yet production ready) but please
-feel free to send us a pull request from a topic branch with specs,
+We're actively developing this, so please
+feel free to send us pull requests for changes
+from a topic branch with specs,
 documentation, and an explanation :)
 
 ## Usage ##
