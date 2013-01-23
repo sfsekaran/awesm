@@ -128,6 +128,11 @@ And in your code:
     )
     url_stats.clicks # => 256
 
+## Maintainers ##
+
+* *Sathya Sekaran*
+* *Michael Durnhofer*
+
 ## Contributing ##
 
 * fork
@@ -140,10 +145,9 @@ And in your code:
 
 ## Contributors ##
 
-* *Sathya Sekaran*
-* *Michael Durnhofer*
-* *Cody Johnston*
+http://github.com/sfsekaran/awesm/graphs/contributors
 
 ## Many Thanks To ##
+
 * our employer, Topspin Media, Inc. (http://topspinmedia.com)
 * and the good folks at awe.sm (http://totally.awe.sm)
