@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["sfsekaran@gmail.com", "mdurnhofer@gmail.com", "cody@codegobl.in"]
   s.homepage    = "http://github.com/sfsekaran/awesm"
   s.summary     = %q{Totally awe.sm!}
-  s.description = %q{The 'awesm' gem is an interface for awe.sm (http://totally.awe.sm), a social link analytics tracking service.}
+  s.description = %q{The 'awesm' gem is an interface for awe.sm (http://totally.awe.sm), a social link analytics tracking service. This gem is in no way maintained by the company Awe.sm, and is third party software written and collaborated on by the development community at large.}
 
   s.rubyforge_project = "awesm"
 
