@@ -24,6 +24,12 @@ module Awesm
       call_api("#{Awesm::HOST}#{PATH}/static.json", params)
     end
 
+    def self.update(awesm_id, options)
+      response = Awesm.http_client.post "#{Awesm::HOST}#{PATH}/update/#{awesm_id}.json", { :v => 3 }.merge(options)
+      json = JSON.parse response.content
+      new(json)
+    end
+
     #########
     private #
     #########

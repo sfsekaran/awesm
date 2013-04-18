@@ -114,7 +114,15 @@ And in your code:
     )
     url.awesm_url # => "http://demo.awe.sm/ELZ"
 
-    awesm_url="http://demo.awe.sm/K5s"
+	# Use 'update' to set / change properties for a recently created Url
+	url = Awesm::Url.update( url.awesm_id,
+	  :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :tool => 'mKU7uN', 
+      :tag => 'foobar'
+    )
+    url.tag # => 'foobar'
+
+
     # Retrieve stats in return for your hard work!
     stats = Awesm::Stats.range(
       :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
@@ -122,6 +130,14 @@ And in your code:
       :end_date   => '2011-10-01'
     )
     stats.totals.clicks # => 1024
+
+	# Similar to 'range', but gets all-time totals for links created during the given time span
+    stats = Awesm::Stats.totals(
+      :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+      :start_date => '2011-09-01',
+      :end_date   => '2011-10-01'
+    )
+    stats.totals.clicks # => 4096
 
     url_stats = Awesm::Stats.url(
       :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
