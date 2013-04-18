@@ -289,4 +289,100 @@ describe Awesm::Url do
         should have_been_made.once
     end
   end
+
+  describe '.update' do
+    let(:api_url) { "http://api.awe.sm/url/update/demo.awe.sm_ELZ.json" }
+
+    let(:awesm_id) { "demo.awe.sm_ELZ" }
+
+    let(:required_params) {
+      {
+        :url => 'http://developers.awe.sm/',
+        :key => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+        :tool => 'mKU7uN',
+        :tag => 'foobar'
+      }
+    }
+
+    let(:update_url_response) {
+      {
+        :awesm_url => 'http://demo.awe.sm/ELZ',
+        :awesm_id => 'demo.awe.sm_ELZ',
+        :domain => 'demo.awe.sm',
+        :path => 'ELZ',
+        :created_at => '2011-08-19T23:39:15Z',
+        :redirect_url => 'http://plancast.com/p/6xfs/silicon-valley-tweetup-summer-2011?utm_campaign=&utm_medium=demo.awe.sm-copypaste&utm_source=direct-demo.awe.sm&utm_content=test-main',
+        :original_url => 'http://plancast.com/p/6xfs/silicon-valley-tweetup-summer-2011',
+        :channel => 'copypaste',
+        :service => 'copypaste',
+        :tool => 'test-main',
+        :application => 'test',
+        :parent => nil,
+        :sharer_id => nil,
+        :username => nil,
+        :service_userid => nil,
+        :service_postid => nil,
+        :service_postid_metadata => {
+            :reach => nil,
+            :shared_at => nil
+        },
+        :campaign => nil,
+        :campaign_metadata => {
+            :description => nil,
+            :name => nil
+        },
+        :user_id => 23291,
+        :user_id_metadata => {
+            :icon_url => 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/41657_627286_9900_n.jpg',
+            :username => 'jstrauss',
+            :profile_url => 'http://plancast.com/user/23291'
+        },
+        :tag => 'foobar',
+        :notes => nil,
+        :updated_at => "2011-08-19T23:52:55Z"
+      }.to_json
+    }
+
+   let(:update_url_error_response) {
+      {
+        "request" => {
+          "action" => "static",
+          "awesm_url" => "awe.sm_5WXHo",
+          "controller" => "url",
+          "key" => "5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9"
+        },
+        "error" => {
+          "code" => 1000,
+          "message" => "Invalid API key"
+        }
+      }.to_json
+    }
+
+    before do
+      expected_params = required_params.merge(:v => "3")
+      stub_request(:post, api_url).
+        with(:body => expected_params).
+        to_return(:status => 200,
+                  :body => update_url_response,
+                  :headers => {
+                    'Content-Type' => 'application/json;charset=utf-8'
+                  })
+    end
+    
+    context 'when successful' do
+      it 'returns an Awesm::Url' do
+        url = Awesm::Url.update(awesm_id, required_params)
+        url.should be_an_instance_of(Awesm::Url)
+      end
+    end
+
+    it 'posts to the awe.sm url update api properly' do
+      expected_query = required_params.merge(:v => "3")
+      Awesm::Url.update(awesm_id, required_params)
+      a_request(:post, api_url).
+        with(:body => expected_query).
+        should have_been_made.once
+    end
+
+  end
 end

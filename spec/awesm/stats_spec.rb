@@ -100,6 +100,98 @@ describe Awesm::Stats do
     end
   end
 
+  describe '.totals' do
+    let(:basic_response) do
+      {
+        "end_date" => "2011-10-01T00:00:00Z",
+        "filters" => [],
+        "group_by" => nil,
+        "groups" => [],
+        "last_offset" => 0,
+        "offset" => 0,
+        "page" => nil,
+        "per_page" => 10,
+        "pivot" => nil,
+        "pivot_sort_order" => nil,
+        "pivot_sort_type" => nil,
+        "sort_order" => nil,
+        "sort_type" => nil,
+        "start_date" => "2011-09-01T00:00:00Z",
+        "total_results" => 0,
+        "totals" => {
+          "clicks" => 166,
+          "clicks_per_share" => 2.5538,
+          "shares" => 65
+        },
+        "with_conversions" => false,
+        "with_metadata" => false,
+        "with_zeros" => false
+      }.to_json
+    end
+
+    before do
+      stub_request(:get, "http://api.awe.sm/stats/totals.json?v=3&end_date=2011-10-01&key=5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9&start_date=2011-09-01").
+        to_return(:status => 200, :body => basic_response, :headers => { 'Content-Type' => 'application/json;charset=utf-8' })
+      stub_request(:get, "http://api.awe.sm/stats/totals.json?v=3&end_date=2011-10-01&key=fake_key&start_date=2011-09-01").
+        to_return(
+          :status => 403,
+          :body => invalid_key_response,
+          :headers => {
+            "x-powered-by" => ["PHP/5.3.2-1ubuntu4.7"],
+            "connection"=>["close"],
+            "content-type"=>["text/html"],
+            "date"=>["Tue, 13 Dec 2011 18:51:20 GMT"],
+            "server"=>["Apache/2.2.14 (Ubuntu)"],
+            "content-length"=>["57"],
+            "vary"=>["Accept-Encoding"]
+          })
+    end
+
+    it 'gets the stats totals api correctly' do
+      stats = Awesm::Stats.totals(
+        :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+        :start_date => '2011-09-01',
+        :end_date   => '2011-10-01'
+      )
+
+      a_request(:get, "http://api.awe.sm/stats/totals.json").
+        with(:query => {
+          :v          => '3',
+          :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+          :start_date => '2011-09-01',
+          :end_date   => '2011-10-01'
+        }).
+        should have_been_made.once
+    end
+
+    it 'returns an error code when using an incorrect key' do
+      stats = Awesm::Stats.totals(
+        :key        => 'fake_key',
+        :start_date => '2011-09-01',
+        :end_date   => '2011-10-01'
+      )
+      stats.error.should == 403
+    end
+
+    it 'returns an error code when using an incorrect key' do
+      stats = Awesm::Stats.totals(
+        :key        => 'fake_key',
+        :start_date => '2011-09-01',
+        :end_date   => '2011-10-01'
+      )
+      stats.error_message.should == 'Invalid API key specified'
+    end
+
+    it 'returns an instance of Awesm::Stats' do
+      stats = Awesm::Stats.totals(
+        :key        => '5c8b1a212434c2153c2f2c2f2c765a36140add243bf6eae876345f8fd11045d9',
+        :start_date => '2011-09-01',
+        :end_date   => '2011-10-01'
+      )
+      stats.should be_an_instance_of(Awesm::Stats)
+    end
+  end
+
   describe '.url' do
     let(:stats_response) do
       {
