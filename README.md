@@ -10,6 +10,7 @@ from a topic branch with specs,
 documentation, and an explanation :)
 
 [![Build Status](https://travis-ci.org/sfsekaran/awesm.png)](https://travis-ci.org/sfsekaran/awesm)
+[![Gem Version](https://badge.fury.io/rb/awesm.png)](http://badge.fury.io/rb/awesm)
 
 ## Usage ##
 
