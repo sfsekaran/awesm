@@ -11,6 +11,7 @@ documentation, and an explanation :)
 
 [![Build Status](https://travis-ci.org/sfsekaran/awesm.png)](https://travis-ci.org/sfsekaran/awesm)
 [![Gem Version](https://badge.fury.io/rb/awesm.png)](http://badge.fury.io/rb/awesm)
+[![Code Climate](https://codeclimate.com/github/sfsekaran/awesm.png)](https://codeclimate.com/github/sfsekaran/awesm)
 
 ## Usage ##
 
