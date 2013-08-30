@@ -166,8 +166,8 @@ http://github.com/sfsekaran/awesm/graphs/contributors
 
 ## Many Thanks To ##
 
-* our employer, Topspin Media, Inc. (http://topspinmedia.com)
-* and the good folks at awe.sm (http://totally.awe.sm)
+* Our former employer, Topspin Media, Inc. (http://topspinmedia.com)
+* The good folks at Awe.sm! (http://totally.awe.sm)
 
 ## Disclaimer ##
 
