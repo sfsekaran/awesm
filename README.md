@@ -9,6 +9,8 @@ feel free to send us pull requests for changes
 from a topic branch with specs,
 documentation, and an explanation :)
 
+[![Build Status](https://travis-ci.org/sfsekaran/awesm.png)](https://travis-ci.org/sfsekaran/awesm)
+
 ## Usage ##
 
 In your Gemfile:
