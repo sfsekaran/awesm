@@ -103,9 +103,9 @@ describe Awesm::Url do
                     })
       end
 
-      it 'returns nil' do
+      it 'returns an Awesm::Url' do
         url = Awesm::Url.create(:bad => 'param')
-        url.should == nil
+        url.should be_an_instance_of(Awesm::Url)
       end
     end
 
@@ -268,9 +268,9 @@ describe Awesm::Url do
                     })
       end
 
-      it 'returns nil' do
+      it 'returns an Awesm::Url' do
         url = Awesm::Url.static(:bad => 'param')
-        url.should == nil
+        url.should be_an_instance_of(Awesm::Url)
       end
     end
 
@@ -368,7 +368,7 @@ describe Awesm::Url do
                     'Content-Type' => 'application/json;charset=utf-8'
                   })
     end
-    
+
     context 'when successful' do
       it 'returns an Awesm::Url' do
         url = Awesm::Url.update(awesm_id, required_params)

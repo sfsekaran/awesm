@@ -24,10 +24,8 @@ module Awesm
       call_api("#{Awesm::HOST}#{PATH}/static.json", params)
     end
 
-    def self.update(awesm_id, options)
-      response = Awesm.http_client.post "#{Awesm::HOST}#{PATH}/update/#{awesm_id}.json", { :v => 3 }.merge(options)
-      json = JSON.parse response.content
-      new(json)
+    def self.update(awesm_id, params)
+      call_api("#{Awesm::HOST}#{PATH}/update/#{awesm_id}.json", params)
     end
 
     #########
@@ -36,12 +34,8 @@ module Awesm
 
     def self.call_api(action, params)
       response = Awesm.http_client.post(action, { :v => 3 }.merge(params))
-      unless response.status == 200
-        nil
-      else
-        json = JSON.parse response.content
-        new(json)
-      end
+      json = JSON.parse response.content
+      new(json)
     end
 
     def self.required_params_present?(required_params, params)
